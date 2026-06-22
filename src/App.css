@@ -1,0 +1,383 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#f5f5f5;
+}
+
+.container{
+  min-height:100vh;
+  display:flex;
+}
+
+.menu-section{
+  width:70%;
+
+  background:#f8f6f2;
+
+  padding:50px;
+}
+
+.menu-section h1{
+  text-align:center;
+
+  font-size:clamp(3rem,5vw,4.5rem);
+  letter-spacing:2px;
+
+  font-weight:700;
+}
+
+.menu-section h2{
+  text-align:center;
+
+  font-weight:300;
+
+  letter-spacing:4px;
+
+  margin-top:10px;
+}
+
+.divider{
+  text-align:center;
+
+  margin:15px 0 30px;
+
+  font-size:18px;
+}
+
+.menu-section h3{
+  text-align:center;
+
+  margin-bottom:40px;
+}
+
+.section{
+  margin-bottom:50px;
+}
+
+.section-title{
+  margin-bottom:25px !important;
+}
+
+.item{
+  display:flex;
+  align-items:center;
+
+  margin:20px 0;
+
+  padding-bottom:10px;
+
+  transition:.3s;
+}
+
+.item:hover{
+  transform:translateX(5px);
+}
+
+.item-name{
+  font-weight:500;
+}
+
+.item-line{
+  flex:1;
+
+  border-bottom:1px dotted #999;
+
+  margin:0 15px;
+}
+
+.price{
+  font-weight:600;
+}
+
+.image-section{
+  width:30%;
+
+  height:100vh;
+
+  position:sticky;
+  top:0;
+}
+
+.image-section img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+}
+
+@media(max-width:768px){
+
+  .menu-section{
+    width:70%;
+    padding:25px;
+  }
+
+  .image-section{
+    width:30%;
+    height:100vh;
+    position:sticky;
+    top:0;
+  }
+
+  .menu-section h1{
+    font-size:2.5rem;
+  }
+
+  .menu-section h2{
+    font-size:1rem;
+  }
+
+  .menu-nav{
+    gap:8px;
+  }
+
+  .menu-nav a{
+    padding:8px 14px;
+    font-size:12px;
+  }
+
+  .item-left h4{
+    font-size:14px;
+  }
+
+  .item-left p{
+    font-size:11px;
+  }
+
+  .price{
+    font-size:13px;
+  }
+}
+
+@media(max-width:480px){
+
+  .menu-section{
+    width:70%;
+    padding:15px;
+  }
+
+  .image-section{
+    width:30%;
+    height:100vh;
+  }
+
+  .menu-section h1{
+    font-size:2rem;
+  }
+
+  .menu-section h2{
+    font-size:0.8rem;
+    letter-spacing:2px;
+  }
+
+  .tagline{
+    font-size:11px;
+  }
+
+  .menu-nav{
+    gap:6px;
+  }
+
+  .menu-nav a{
+    padding:6px 10px;
+    font-size:10px;
+  }
+
+  .item{
+    padding:12px 0;
+  }
+
+  .item-left h4{
+    font-size:12px;
+  }
+
+  .item-left p{
+    font-size:10px;
+  }
+
+  .price{
+    font-size:11px;
+  }
+
+  .info-box{
+    font-size:12px;
+  }
+
+  .footer{
+    font-size:11px;
+  }
+}
+
+
+.tagline{
+  text-align:center;
+  color:#777;
+  margin-bottom:40px;
+  letter-spacing:2px;
+  font-size:14px;
+}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  padding:18px 0;
+
+  border-bottom:1px solid #e5e5e5;
+}
+
+.item-left h4{
+  margin-bottom:5px;
+  font-size:16px;
+}
+
+.item-left p{
+  color:#777;
+  font-size:13px;
+}
+
+.price{
+  font-weight:600;
+}
+
+.info-box{
+  text-align:center;
+
+  margin-top:40px;
+
+  color:#555;
+}
+
+.info-box h4{
+  margin-bottom:10px;
+}
+
+.footer{
+  margin-top:50px;
+
+  padding-top:30px;
+
+  border-top:1px solid #ddd;
+
+  text-align:center;
+
+  color:#777;
+
+  font-size:14px;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+.menu-nav{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:50px;
+}
+
+.menu-nav a{
+  text-decoration:none;
+  color:#444;
+  border:1px solid #ccc;
+  padding:10px 20px;
+  border-radius:25px;
+  transition:0.3s;
+  font-size:14px;
+}
+
+.menu-nav a:hover{
+  background:#222;
+  color:white;
+}
+
+section{
+  scroll-margin-top:20px;
+}
+
+.search-container{
+  display:flex;
+  justify-content:center;
+  margin-bottom:30px;
+}
+
+.search-container input{
+  width:350px;
+  max-width:100%;
+
+  padding:12px 18px;
+
+  border:1px solid #ccc;
+  border-radius:25px;
+
+  outline:none;
+
+  font-size:14px;
+}
+
+.search-container input:focus{
+  border-color:#444;
+}
+
+.search-results{
+  width:80%;
+  margin:0 auto 30px;
+}
+
+.category-results{
+  margin-bottom:20px;
+}
+
+.category-results h4{
+  color:#8b5a00;
+  margin-bottom:10px;
+}
+
+.category-result{
+  background:#f4e3c1;
+
+  padding:10px;
+
+  margin-bottom:6px;
+
+  border-radius:6px;
+
+  font-weight:600;
+}
+
+.item-results h4{
+  color:#444;
+  margin-bottom:10px;
+}
+
+.item-result{
+  background:#f5f5f5;
+
+  padding:10px;
+
+  margin-bottom:6px;
+
+  border-radius:6px;
+}
+
+.no-results{
+  text-align:center;
+  padding:15px;
+  margin-top:10px;
+
+  color:#b00020;
+
+  background:#fdeaea;
+
+  border-radius:8px;
+
+  font-weight:600;
+}
