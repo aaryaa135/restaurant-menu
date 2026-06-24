@@ -1,6 +1,10 @@
 import MenuItem from "./MenuItem";
 
-function MenuSection({ title, items }) {
+function MenuSection({
+  title,
+  items,
+  addToCart
+}) {
   return (
     <div className="section">
 
@@ -9,10 +13,13 @@ function MenuSection({ title, items }) {
       </h3>
 
       {items.map((item, index) => (
+
         <MenuItem
           key={index}
           item={item}
+          addToCart={addToCart}
         />
+
       ))}
 
     </div>

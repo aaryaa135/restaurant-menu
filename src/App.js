@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import MenuSection from "./components/MenuSection";
 import menuData from "./data/menuData";
@@ -6,6 +6,17 @@ import menuData from "./data/menuData";
 function App() {
 
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  const [tableNumber, setTableNumber] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const categories = Object.keys(menuData);
 
@@ -34,121 +45,293 @@ function App() {
 
   });
 
+  const addToCart = (item) => {
+
+    const existing = cart.find(
+      cartItem => cartItem.name === item.name
+    );
+
+    if (existing) {
+
+      setCart(
+        cart.map(cartItem =>
+          cartItem.name === item.name
+            ? {
+                ...cartItem,
+                quantity: cartItem.quantity + 1
+              }
+            : cartItem
+        )
+      );
+
+    } else {
+
+      setCart([
+        ...cart,
+        {
+          ...item,
+          quantity: 1
+        }
+      ]);
+
+    }
+
+  };
+
+  const increaseQty = (name) => {
+
+    setCart(
+      cart.map(item =>
+        item.name === name
+          ? {
+              ...item,
+              quantity: item.quantity + 1
+            }
+          : item
+      )
+    );
+
+  };
+
+  const decreaseQty = (name) => {
+
+    setCart(
+      cart
+        .map(item =>
+          item.name === name
+            ? {
+                ...item,
+                quantity: item.quantity - 1
+              }
+            : item
+        )
+        .filter(item => item.quantity > 0)
+    );
+
+  };
+
+  const subtotal = cart.reduce(
+    (total, item) =>
+      total + item.price * item.quantity,
+    0
+  );
+
+  const gst = Math.round(subtotal * 0.05);
+
+  const total = subtotal + gst;
+
   const noResults =
     searchTerm &&
     Object.values(filteredMenu)
       .flat()
       .length === 0;
 
+  const placeOrder = () => {
+
+    if (cart.length === 0) {
+      alert("Cart is empty");
+      return;
+    }
+
+    if (!tableNumber) {
+      alert("Enter table number");
+      return;
+    }
+
+    alert(
+      `Order Placed Successfully for Table ${tableNumber}`
+    );
+
+    setCart([]);
+    localStorage.removeItem("cart");
+
+  };
+
   return (
     <div className="container">
 
-      <div className="menu-section">
+      <div className="menu-content">
 
-        <h1>Crispy Spuds</h1>
+        <div className="menu-section">
 
-        <h2>RESTAURANT</h2>
+          <h1>Crispy Spuds</h1>
 
-        <div className="divider">
-          ● ● ●
-        </div>
+          <h2>RESTAURANT</h2>
 
-        <p className="tagline">
-          Freshly Prepared • Served Daily
-        </p>
-
-        <div className="search-container">
-
-          <input
-            type="text"
-            placeholder="Search menu items..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-
-        </div>
-
-        <div className="menu-nav">
-
-          {categories.map(category => (
-
-            <a
-              key={category}
-              href={`#${category}`}
-            >
-              {category
-                .replace(/([A-Z])/g, " $1")
-                .replace(/^./, str => str.toUpperCase())}
-            </a>
-
-          ))}
-
-        </div>
-
-        {categories.map(category => {
-
-          if (
-            searchTerm &&
-            filteredMenu[category].length === 0
-          ) {
-            return null;
-          }
-
-          return (
-
-            <section
-              key={category}
-              id={category}
-            >
-
-              <MenuSection
-                title={
-                  category
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, str => str.toUpperCase())
-                }
-                items={filteredMenu[category]}
-              />
-
-            </section>
-
-          );
-
-        })}
-
-        {noResults && (
-
-          <div className="no-results">
-            Item Not Available
+          <div className="divider">
+            ● ● ●
           </div>
 
-        )}
+          <p className="tagline">
+            Freshly Prepared • Served Daily
+          </p>
 
-        <div className="info-box">
+          <div className="search-container">
 
-          <h4>Opening Hours</h4>
+            <input
+              type="text"
+              placeholder="Search menu items..."
+              value={searchTerm}
+              onChange={(e) =>
+                setSearchTerm(e.target.value)
+              }
+            />
 
-          <p>Monday - Sunday</p>
-          <p>10:00 AM - 11:00 PM</p>
+          </div>
+
+          <div className="menu-nav">
+
+            {categories.map(category => (
+
+              <a
+                key={category}
+                href={`#${category}`}
+              >
+                {category
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, str =>
+                    str.toUpperCase()
+                  )}
+              </a>
+
+            ))}
+
+          </div>
+
+          {categories.map(category => {
+
+            if (
+              searchTerm &&
+              filteredMenu[category].length === 0
+            ) {
+              return null;
+            }
+
+            return (
+
+              <section
+                key={category}
+                id={category}
+              >
+
+                <MenuSection
+                  title={
+                    category
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/^./, str =>
+                        str.toUpperCase()
+                      )
+                  }
+                  items={filteredMenu[category]}
+                  addToCart={addToCart}
+                />
+
+              </section>
+
+            );
+
+          })}
+
+          {noResults && (
+
+            <div className="no-results">
+              Item Not Available
+            </div>
+
+          )}
 
         </div>
 
-        <div className="info-box">
+      </div>
 
-          <h4>Contact</h4>
+      <div className="cart-panel">
 
-          <p>Connaught Place, New Delhi</p>
-          <p>+91 9876543210</p>
+        <h3>
+          Cart ({cart.length})
+        </h3>
+
+        {cart.map(item => (
+
+          <div
+            key={item.name}
+            className="cart-item"
+          >
+
+            <div>
+
+              <strong>
+                {item.name}
+              </strong>
+
+              <p>
+                ₹{item.price}
+              </p>
+
+            </div>
+
+            <div className="qty-controls">
+
+              <button
+                onClick={() =>
+                  decreaseQty(item.name)
+                }
+              >
+                -
+              </button>
+
+              <span>
+                {item.quantity}
+              </span>
+
+              <button
+                onClick={() =>
+                  increaseQty(item.name)
+                }
+              >
+                +
+              </button>
+
+            </div>
+
+          </div>
+
+        ))}
+
+        <div className="bill">
+
+          <p>
+            Subtotal:
+            ₹{subtotal}
+          </p>
+
+          <p>
+            GST (5%):
+            ₹{gst}
+          </p>
+
+          <h4>
+            Total:
+            ₹{total}
+          </h4>
 
         </div>
 
-        <footer className="footer">
+        <input
+          type="number"
+          placeholder="Table Number"
+          value={tableNumber}
+          onChange={(e) =>
+            setTableNumber(e.target.value)
+          }
+          className="table-input"
+        />
 
-          <p>Crispy Spuds Restaurant</p>
-
-          <p>Serving Quality Food Since 2024</p>
-
-        </footer>
+        <button
+          className="order-btn"
+          onClick={placeOrder}
+        >
+          Place Order
+        </button>
 
       </div>
 
