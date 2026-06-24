@@ -14,16 +14,23 @@ function App() {
   categories.forEach(category => {
 
     filteredMenu[category] =
+
       searchTerm.toLowerCase() === "all" ||
       searchTerm === ""
 
         ? menuData[category]
 
-        : menuData[category].filter(item =>
-            item.name
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-          );
+        : category
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+
+          ? menuData[category]
+
+          : menuData[category].filter(item =>
+              item.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            );
 
   });
 
