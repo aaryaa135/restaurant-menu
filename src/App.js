@@ -9,25 +9,29 @@ function App() {
 
   const categories = Object.keys(menuData);
 
-  const allItems = Object.values(menuData).flat();
+  const filteredMenu = {};
 
-  const matchedCategories =
-    searchTerm.toLowerCase() === "all"
-      ? categories
-      : categories.filter(category =>
-          category
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        );
+  categories.forEach(category => {
 
-  const matchedItems =
-    searchTerm.toLowerCase() === "all"
-      ? allItems
-      : allItems.filter(item =>
-          item.name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        );
+    filteredMenu[category] =
+      searchTerm.toLowerCase() === "all" ||
+      searchTerm === ""
+
+        ? menuData[category]
+
+        : menuData[category].filter(item =>
+            item.name
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          );
+
+  });
+
+  const noResults =
+    searchTerm &&
+    Object.values(filteredMenu)
+      .flat()
+      .length === 0;
 
   return (
     <div className="container">
@@ -57,95 +61,6 @@ function App() {
 
         </div>
 
-        {searchTerm && (
-
-          <div className="search-results">
-
-            {matchedCategories.length > 0 && (
-
-              <div className="category-results">
-
-                <h4>Categories</h4>
-
-                {matchedCategories.map(category => (
-
-                  <div
-                    key={category}
-                    className="category-result"
-                    onClick={() => {
-
-                      const element =
-                        document.getElementById(category);
-
-                      if (element) {
-                        element.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start"
-                        });
-                      }
-
-                    }}
-                  >
-                    {category
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, str => str.toUpperCase())}
-                  </div>
-
-                ))}
-
-              </div>
-
-            )}
-
-            {matchedItems.length > 0 && (
-
-              <div className="item-results">
-
-                <h4>Items</h4>
-
-                {matchedItems.map(item => (
-
-                  <div
-                    key={item.name}
-                    className="item-result"
-                    onClick={() => {
-
-                      const element =
-                        document.getElementById(
-                          item.name.replace(/\s+/g, "-")
-                        );
-
-                      if (element) {
-                        element.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center"
-                        });
-                      }
-
-                    }}
-                  >
-                    {item.name}
-                  </div>
-
-                ))}
-
-              </div>
-
-            )}
-
-            {matchedCategories.length === 0 &&
-             matchedItems.length === 0 && (
-
-              <div className="no-results">
-                Item Not Available
-              </div>
-
-            )}
-
-          </div>
-
-        )}
-
         <div className="menu-nav">
 
           {categories.map(category => (
@@ -163,25 +78,44 @@ function App() {
 
         </div>
 
-        {categories.map(category => (
+        {categories.map(category => {
 
-          <section
-            key={category}
-            id={category}
-          >
+          if (
+            searchTerm &&
+            filteredMenu[category].length === 0
+          ) {
+            return null;
+          }
 
-            <MenuSection
-              title={
-                category
-                  .replace(/([A-Z])/g, " $1")
-                  .replace(/^./, str => str.toUpperCase())
-              }
-              items={menuData[category]}
-            />
+          return (
 
-          </section>
+            <section
+              key={category}
+              id={category}
+            >
 
-        ))}
+              <MenuSection
+                title={
+                  category
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, str => str.toUpperCase())
+                }
+                items={filteredMenu[category]}
+              />
+
+            </section>
+
+          );
+
+        })}
+
+        {noResults && (
+
+          <div className="no-results">
+            Item Not Available
+          </div>
+
+        )}
 
         <div className="info-box">
 
@@ -208,15 +142,6 @@ function App() {
           <p>Serving Quality Food Since 2024</p>
 
         </footer>
-
-      </div>
-
-      <div className="image-section">
-
-        <img
-          src="https://images.unsplash.com/photo-1576107232684-1279f390859f"
-          alt="Fries"
-        />
 
       </div>
 
