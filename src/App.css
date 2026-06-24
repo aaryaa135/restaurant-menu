@@ -457,12 +457,25 @@ section{
   cursor:pointer;
 
   transition:all .3s ease;
+
+  outline:none;
 }
 
 .add-btn:hover{
   background:#333;
-
   color:white;
+}
+
+.add-btn:focus{
+  outline:none;
+
+  background:transparent;
+
+  color:#333;
+}
+
+.add-btn:active{
+  transform:scale(0.97);
 }
 
 @media(max-width:900px){
