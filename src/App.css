@@ -496,3 +496,59 @@ section{
     border-top:1px solid #ddd;
   }
 }
+
+.bill-page{
+
+  max-width:700px;
+
+  margin:40px auto;
+
+  background:white;
+
+  padding:40px;
+
+  border-radius:12px;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+.bill-page h1{
+
+  text-align:center;
+
+}
+
+.bill-page h2{
+
+  text-align:center;
+
+  margin:15px 0;
+
+}
+
+.bill-item{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  padding:12px 0;
+
+  border-bottom:1px solid #eee;
+
+}
+
+.old-order{
+
+margin-top:15px;
+
+padding:12px;
+
+border:1px solid #ddd;
+
+border-radius:8px;
+
+background:#fafafa;
+
+}

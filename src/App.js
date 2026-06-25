@@ -13,11 +13,22 @@ function App() {
   });
 
   const [tableNumber, setTableNumber] = useState("");
+  
+  const [showBill, setShowBill] = useState(false);
 
+  const [placedOrder, setPlacedOrder] = useState(null);
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+  
 
+  const [orderHistory, setOrderHistory] = useState(() => {
+
+    const saved = localStorage.getItem("orders");
+
+    return saved ? JSON.parse(saved) : [];
+
+  });
   const categories = Object.keys(menuData);
 
   const filteredMenu = {};
@@ -138,14 +149,159 @@ function App() {
       return;
     }
 
-    alert(
-      `Order Placed Successfully for Table ${tableNumber}`
-    );
+    setPlacedOrder({
 
-    setCart([]);
-    localStorage.removeItem("cart");
+  orderId: Date.now(),
+
+  date: new Date().toLocaleDateString(),
+
+  time: new Date().toLocaleTimeString(),
+
+  table: tableNumber,
+
+  items: cart,
+
+  subtotal,
+
+  gst,
+
+  total
+
+});  
+
+
+
+const updatedOrders = [
+
+  {
+
+    orderId: Date.now(),
+
+    date: new Date().toLocaleDateString(),
+
+    time: new Date().toLocaleTimeString(),
+
+    table: tableNumber,
+
+    items: cart,
+
+    subtotal,
+
+    gst,
+
+    total
+
+  },
+
+  ...orderHistory
+
+];
+
+setOrderHistory(updatedOrders);
+
+localStorage.setItem(
+
+  "orders",
+
+  JSON.stringify(updatedOrders)
+
+);
+setShowBill(true);
+
+setCart([]);
+
+localStorage.removeItem("cart");
 
   };
+
+  if (showBill) {
+
+  return (
+
+    <div className="bill-page">
+
+      <h1>Crispy Spuds</h1>
+
+      <h2>Receipt</h2>
+
+      <p><b>Order ID:</b> #{placedOrder.orderId}</p>
+
+      <p><b>Date:</b> {placedOrder.date}</p>
+
+      <p><b>Time:</b> {placedOrder.time}</p>
+
+      <p>
+        Table : {placedOrder.table}
+      </p>
+
+      <hr />
+
+      {placedOrder.items.map(item => (
+
+        <div
+          key={item.name}
+          className="bill-item"
+        >
+
+          <span>
+
+            {item.name} × {item.quantity}
+
+          </span>
+
+          <span>
+
+            ₹{item.price * item.quantity}
+
+          </span>
+
+        </div>
+
+      ))}
+
+      <hr />
+
+      <p>
+
+        Subtotal : ₹{placedOrder.subtotal}
+
+      </p>
+
+      <p>
+
+        GST : ₹{placedOrder.gst}
+
+      </p>
+
+      <h3>
+
+        Total : ₹{placedOrder.total}
+
+      </h3>
+
+      <button
+
+        className="order-btn"
+
+        onClick={() => {
+
+          setShowBill(false);
+
+          setPlacedOrder(null);
+
+        }}
+
+      >
+
+        Back To Menu
+
+      </button>
+
+    </div>
+
+  );
+
+}
 
   return (
     <div className="container">
