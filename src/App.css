@@ -84,24 +84,29 @@ body{
 }
 
 .search-container input{
-  width:400px;
+
+  width:450px;
+
   max-width:100%;
 
-  padding:12px 18px;
+  padding:14px 22px;
 
-  border:1px solid #ccc;
+  border-radius:40px;
 
-  border-radius:30px;
+  border:1px solid #ddd;
 
-  outline:none;
+  font-size:15px;
 
-  font-size:14px;
+  transition:.3s;
 
-  background:white;
 }
 
 .search-container input:focus{
-  border-color:#444;
+
+  border-color:#222;
+
+  box-shadow:0 0 10px rgba(0,0,0,.08);
+
 }
 
 .menu-nav{
@@ -144,15 +149,17 @@ body{
 }
 
 .section-title{
-  text-align:center;
 
-  text-transform:uppercase;
+  text-align:left;
 
-  letter-spacing:3px;
+  font-size:28px;
 
-  color:#333;
+  margin-bottom:30px!important;
 
-  margin-bottom:25px !important;
+  letter-spacing:2px;
+
+  color:#222;
+
 }
 
 .item{
@@ -170,7 +177,11 @@ body{
 }
 
 .item:hover{
-  transform:translateX(5px);
+
+  transform:translateX(8px);
+
+  background:#fcfcfc;
+
 }
 
 .item-left h4{
@@ -326,24 +337,22 @@ section{
 }
 
 .cart-panel{
-  width:320px;
-
-  background:white;
-
-  padding:25px;
-
-  border-left:1px solid #ddd;
-
+  width:340px;
+  background:#fff;
+  padding:30px;
+  border-left:1px solid #ececec;
   position:sticky;
   top:0;
-
   height:100vh;
-
   overflow-y:auto;
+  box-shadow:-5px 0 15px rgba(0,0,0,.05);
 }
 
 .cart-panel h3{
-  margin-bottom:20px;
+  margin-bottom:25px;
+  font-size:24px;
+  border-bottom:2px solid #eee;
+  padding-bottom:15px;
 }
 
 .cart-item{
@@ -410,25 +419,35 @@ section{
 }
 
 .order-btn{
+
   width:100%;
 
-  margin-top:15px;
+  margin-top:20px;
 
-  padding:12px;
+  padding:15px;
+
+  font-size:16px;
+
+  font-weight:600;
 
   border:none;
 
-  background:#222;
+  border-radius:10px;
+
+  background:#111;
 
   color:white;
 
-  border-radius:8px;
-
   cursor:pointer;
+
+  transition:.3s;
+
 }
 
 .order-btn:hover{
-  background:#000;
+
+  background:#333;
+
 }
 
 .item-right{
@@ -440,15 +459,15 @@ section{
 }
 
 .add-btn{
-  background:transparent;
 
-  color:#333;
+  background:#222;
+  color:white;
 
-  border:1px solid #333;
+  border:none;
 
-  padding:8px 20px;
+  padding:8px 18px;
 
-  border-radius:25px;
+  border-radius:20px;
 
   font-size:13px;
 
@@ -456,27 +475,23 @@ section{
 
   cursor:pointer;
 
-  transition:all .3s ease;
-
-  outline:none;
+  transition:.3s;
 }
 
 .add-btn:hover{
-  background:#333;
-  color:white;
-}
 
-.add-btn:focus{
-  outline:none;
+  background:#444;
 
-  background:transparent;
+  transform:translateY(-2px);
 
-  color:#333;
 }
 
 .add-btn:active{
-  transform:scale(0.97);
+
+  transform:scale(.96);
+
 }
+
 
 @media(max-width:900px){
 
@@ -505,11 +520,11 @@ section{
 
   background:white;
 
-  padding:40px;
+  padding:45px;
 
-  border-radius:12px;
+  border-radius:16px;
 
-  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  box-shadow:0 10px 35px rgba(0,0,0,.08);
 
 }
 
@@ -517,13 +532,17 @@ section{
 
   text-align:center;
 
+  font-size:48px;
+
 }
 
 .bill-page h2{
 
   text-align:center;
 
-  margin:15px 0;
+  margin:20px 0;
+
+  color:#555;
 
 }
 
@@ -533,7 +552,9 @@ section{
 
   justify-content:space-between;
 
-  padding:12px 0;
+  align-items:center;
+
+  padding:15px 0;
 
   border-bottom:1px solid #eee;
 
@@ -551,4 +572,16 @@ border-radius:8px;
 
 background:#fafafa;
 
+}
+
+.empty-cart{
+  text-align:center;
+  color:#777;
+  margin:20px 0;
+  line-height:1.6;
+}
+
+.order-btn:disabled{
+  background:#999;
+  cursor:not-allowed;
 }

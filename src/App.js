@@ -64,6 +64,11 @@ function App() {
 
     if (existing) {
 
+      if (existing.quantity >= 10) {
+        alert("Maximum 10 quantity allowed for one item.");
+        return;
+      }
+
       setCart(
         cart.map(cartItem =>
           cartItem.name === item.name
@@ -90,6 +95,15 @@ function App() {
   };
 
   const increaseQty = (name) => {
+
+    const selectedItem = cart.find(
+      item => item.name === name
+    );
+
+    if (selectedItem.quantity >= 10) {
+      alert("Maximum 10 quantity allowed for one item.");
+      return;
+    }
 
     setCart(
       cart.map(item =>
@@ -149,25 +163,27 @@ function App() {
       return;
     }
 
+    const orderId = Date.now();
+
     setPlacedOrder({
 
-  orderId: Date.now(),
+      orderId: orderId,
 
-  date: new Date().toLocaleDateString(),
+      date: new Date().toLocaleDateString(),
 
-  time: new Date().toLocaleTimeString(),
+      time: new Date().toLocaleTimeString(),
 
-  table: tableNumber,
+      table: tableNumber,
 
-  items: cart,
+      items: cart,
 
-  subtotal,
+      subtotal,
 
-  gst,
+      gst,
 
-  total
+      total
 
-});  
+    });  
 
 
 
@@ -175,7 +191,7 @@ const updatedOrders = [
 
   {
 
-    orderId: Date.now(),
+    orderId: orderId,
 
     date: new Date().toLocaleDateString(),
 
@@ -224,15 +240,26 @@ localStorage.removeItem("cart");
 
       <h2>Receipt</h2>
 
-      <p><b>Order ID:</b> #{placedOrder.orderId}</p>
+      <p
+        style={{
+          color: "#2e7d32",
+          fontWeight: "600",
+          textAlign: "center",
+          marginBottom: "20px"
+        }}
+      >
+        ✓ Order Placed Successfully
+      </p>
+
+      <p><b>Order ID:</b> CS-{String(placedOrder.orderId).slice(-4)}</p>
 
       <p><b>Date:</b> {placedOrder.date}</p>
 
       <p><b>Time:</b> {placedOrder.time}</p>
 
-      <p>
-        Table : {placedOrder.table}
-      </p>
+      <p><b>Estimated Preparation Time:</b> 15-20 mins</p>
+
+      <p><b>Table:</b> {placedOrder.table}</p>
 
       <hr />
 
@@ -296,6 +323,21 @@ localStorage.removeItem("cart");
         Back To Menu
 
       </button>
+
+      <hr style={{ marginTop: "25px" }} />
+
+      <p
+        style={{
+          textAlign: "center",
+          color: "#666",
+          marginTop: "20px",
+          lineHeight: "1.8"
+        }}
+      >
+        Thank you for dining with Crispy Spuds.
+        <br />
+        We look forward to serving you again.
+      </p>
 
     </div>
 
@@ -406,6 +448,14 @@ localStorage.removeItem("cart");
           Cart ({cart.length})
         </h3>
 
+        {cart.length === 0 && (
+          <p className="empty-cart">
+            Your cart is empty.
+            <br />
+            Add delicious items to begin your order.
+          </p>
+        )}
+
         {cart.map(item => (
 
           <div
@@ -485,6 +535,7 @@ localStorage.removeItem("cart");
         <button
           className="order-btn"
           onClick={placeOrder}
+          disabled={cart.length === 0}
         >
           Place Order
         </button>
